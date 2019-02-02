@@ -3,15 +3,18 @@ import logo from './logo.svg';
 import './App.css';
 import {TodoList} from "./TodoList";
 import {Login} from "./component/Login";
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from "moment";
+import Button from '@material-ui/core/Button';
+import TextField from "@material-ui/core/TextField";
+import {MuiPickersUtilsProvider, TimePicker, DatePicker} from 'material-ui-pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 export class TodoApp extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {items: [], text: '', priority: 0, dueDate: moment()};
+        this.state = {items: [], text: ' ', priority: 0, dueDate: moment()};
         this.handleTextChange = this.handleTextChange.bind(this);
         this.handlePriorityChange = this.handlePriorityChange.bind(this);
         this.handleDateChange = this.handleDateChange.bind(this);
@@ -22,44 +25,47 @@ export class TodoApp extends Component {
     render() {
 
         return (
-            <div >
-                <form onSubmit={this.handleSubmit} className="todo-form">
-                    <h3>New TODO</h3>
-                    <label htmlFor="text" className="right-margin">
-                        Text:
-                    </label>
+            <div>
 
-                    <input
+                <form onSubmit={this.handleSubmit} >
+                    <h3>New TODO</h3>
+
+
+                    <TextField
+                        label="Description"
                         id="text"
                         onChange={this.handleTextChange}
+                        margin="normal"
                         value={this.state.text}>
-                    </input>
+                    </TextField>
 
                     <br/>
                     <br/>
-                    <label htmlFor="priority" className="right-margin">
-                        Priority:
-                    </label>
 
-                    <input
+                    <TextField
+                        label="Priority"
                         id="priority"
                         type="number"
                         onChange={this.handlePriorityChange}
+                        margin="normal"
                         value={this.state.priority}>
-                    </input>
+                    </TextField>
                     <br/>
                     <br/>
-
-                    <DatePicker
-                        id="due-date"
-                        selected={this.state.dueDate}
-                        placeholderText="Due date"
-                        onChange={this.handleDateChange}>
-                    </DatePicker>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <DatePicker
+                            margin="normal"
+                            label="Date picker"
+                            id="due-date"
+                            selected={this.state.dueDate}
+                            onChange={this.handleDateChange}>
+                        </DatePicker>
+                    </MuiPickersUtilsProvider>
                     <br/>
-                    <button>
+                    <br/>
+                    <Button variant="contained" color="primary" type="submit" >
                         Add #{this.state.items.length + 1}
-                    </button>
+                    </Button>
                 </form>
                 <br/>
                 <br/>
@@ -76,6 +82,7 @@ export class TodoApp extends Component {
     }
 
     handlePriorityChange(e) {
+        console.log(e.target.value)
         this.setState({
             priority: e.target.value
         });
@@ -88,10 +95,11 @@ export class TodoApp extends Component {
     }
 
     handleSubmit(e) {
-
+        console.log("entro")
         e.preventDefault();
 
         if (!this.state.text.length || !this.state.priority.length || !this.state.dueDate)
+            console.log("entrfsdfo")
             return;
 
         const newItem = {

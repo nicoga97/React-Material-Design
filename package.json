@@ -10,7 +10,11 @@
     "react-moment": "^0.7.9",
     "react-scripts": "^2.1.3",
     "@material-ui/core": "^3.9.1",
-    "@material-ui/icons": "^3.0.2"
+    "@material-ui/icons": "^3.0.2",
+    "date-fns": "next",
+    "react-router-dom": "^4.3.1",
+    "material-ui-pickers": "latest",
+    "@date-io/date-fns": "latest"
   },
   "scripts": {
     "start": "react-scripts start",
