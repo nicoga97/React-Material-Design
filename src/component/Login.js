@@ -13,6 +13,11 @@ import './Login.css'
 
 export class Login extends React.Component{
 
+    constructor(props) {
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this)
+    }
+
     render(){
         return (
             <React.Fragment>
@@ -23,7 +28,7 @@ export class Login extends React.Component{
                             <LockIcon />
                         </Avatar>
                         <Typography variant="headline">Sign in</Typography>
-                        <form className="form">
+                        <form className="form" onSubmit={this.handleSubmit}>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="email">Email Address</InputLabel>
                                 <Input id="email" name="email" autoComplete="email" autoFocus />
@@ -53,5 +58,10 @@ export class Login extends React.Component{
         );
     }
 
+    handleSubmit(e) {
+
+    }
+
 }
+
 

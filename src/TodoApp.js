@@ -1,16 +1,19 @@
 import React, {Component} from 'react';
-import logo from './logo.svg';
 import './App.css';
 import {TodoList} from "./TodoList";
 import {Login} from "./component/Login";
 import 'react-datepicker/dist/react-datepicker.css';
-import moment from "moment";
 import Button from '@material-ui/core/Button';
 import TextField from "@material-ui/core/TextField";
-import {MuiPickersUtilsProvider, TimePicker, DatePicker} from 'material-ui-pickers';
+import {MuiPickersUtilsProvider, DatePicker} from 'material-ui-pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import moment from "moment";
+import Paper from '@material-ui/core/Paper';
+import Grid from '@material-ui/core/Grid';
+
 
 export class TodoApp extends Component {
+
 
     constructor(props) {
         super(props);
@@ -26,51 +29,57 @@ export class TodoApp extends Component {
 
         return (
             <div>
-
-                <form onSubmit={this.handleSubmit} >
-                    <h3>New TODO</h3>
-
-
-                    <TextField
-                        label="Description"
-                        id="text"
-                        onChange={this.handleTextChange}
-                        margin="normal"
-                        value={this.state.text}>
-                    </TextField>
-
-                    <br/>
-                    <br/>
-
-                    <TextField
-                        label="Priority"
-                        id="priority"
-                        type="number"
-                        onChange={this.handlePriorityChange}
-                        margin="normal"
-                        value={this.state.priority}>
-                    </TextField>
-                    <br/>
-                    <br/>
-                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
-                        <DatePicker
-                            margin="normal"
-                            label="Date picker"
-                            id="due-date"
-                            selected={this.state.dueDate}
-                            onChange={this.handleDateChange}>
-                        </DatePicker>
-                    </MuiPickersUtilsProvider>
-                    <br/>
-                    <br/>
-                    <Button variant="contained" color="primary" type="submit" >
-                        Add #{this.state.items.length + 1}
-                    </Button>
-                </form>
-                <br/>
-                <br/>
-                <TodoList todoList={this.state.items}/>
-                <Login/>
+                <Grid container spacing={24} >
+                    <Grid item xs>
+                        <Paper>
+                            <br/>
+                            <form onSubmit={this.handleSubmit}>
+                                <h3>New TODO</h3>
+                                <TextField
+                                    label="Description"
+                                    id="text"
+                                    onChange={this.handleTextChange}
+                                    margin="normal"
+                                    value={this.state.text}>
+                                </TextField>
+                                <br/>
+                                <br/>
+                                <TextField
+                                    label="Priority"
+                                    id="priority"
+                                    type="number"
+                                    onChange={this.handlePriorityChange}
+                                    margin="normal"
+                                    value={this.state.priority}>
+                                </TextField>
+                                <br/>
+                                <br/>
+                                <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                                    <DatePicker
+                                        margin="normal"
+                                        label="Date picker"
+                                        id="due-date"
+                                        value={this.state.dueDate}
+                                        onChange={this.handleDateChange}>
+                                    </DatePicker>
+                                </MuiPickersUtilsProvider>
+                                <br/>
+                                <br/>
+                                <Button variant="contained" color="primary" type="submit">
+                                    Add #{this.state.items.length + 1}
+                                </Button>
+                            </form>
+                            <br/>
+                        </Paper>
+                    </Grid>
+                    <Grid item xs>
+                        <Paper>
+                            <br/>
+                            <TodoList todoList={this.state.items}/>
+                            <br/>
+                        </Paper>
+                    </Grid>
+                </Grid>
             </div>
         );
     }
@@ -82,7 +91,6 @@ export class TodoApp extends Component {
     }
 
     handlePriorityChange(e) {
-        console.log(e.target.value)
         this.setState({
             priority: e.target.value
         });
@@ -90,29 +98,24 @@ export class TodoApp extends Component {
 
     handleDateChange(date) {
         this.setState({
-            dueDate: date
+            dueDate: moment(date)
         });
     }
 
     handleSubmit(e) {
-        console.log("entro")
         e.preventDefault();
-
         if (!this.state.text.length || !this.state.priority.length || !this.state.dueDate)
-            console.log("entrfsdfo")
             return;
-
         const newItem = {
             text: this.state.text,
             priority: this.state.priority,
             dueDate: this.state.dueDate,
-
         };
         this.setState(prevState => ({
             items: prevState.items.concat(newItem),
             text: '',
             priority: '',
-            dueDate: ''
+            dueDate: moment()
         }));
     }
 
