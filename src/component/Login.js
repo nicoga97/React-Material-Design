@@ -15,7 +15,10 @@ export class Login extends React.Component{
 
     constructor(props) {
         super(props);
-        this.handleSubmit = this.handleSubmit.bind(this)
+        this.state={user:"",password:""};
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleUserTextChange=this.handleUserTextChange.bind(this);
+        this.handlePasswordTextChange=this.handlePasswordTextChange.bind(this);
     }
 
     render(){
@@ -31,7 +34,7 @@ export class Login extends React.Component{
                         <form className="form" onSubmit={this.handleSubmit}>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="email">Email Address</InputLabel>
-                                <Input id="email" name="email" autoComplete="email" autoFocus />
+                                <Input id="email" name="email" onChange={this.handleUserTextChange} autoComplete="email" autoFocus />
                             </FormControl>
                             <FormControl margin="normal" required fullWidth>
                                 <InputLabel htmlFor="password">Password</InputLabel>
@@ -39,6 +42,7 @@ export class Login extends React.Component{
                                     name="password"
                                     type="password"
                                     id="password"
+                                    onChange={this.handlePasswordTextChange}
                                     autoComplete="current-password"
                                 />
                             </FormControl>
@@ -59,7 +63,20 @@ export class Login extends React.Component{
     }
 
     handleSubmit(e) {
+        if(localStorage.getItem('user')===this.state.user  && localStorage.getItem('password')===this.state.password ){
+            localStorage.setItem('isLoggedIn', "true");
+        }
+    }
+    handleUserTextChange(e) {
+        this.setState({
+            user: e.target.value
+        });
+    }
 
+    handlePasswordTextChange(e) {
+        this.setState({
+            password: e.target.value
+        });
     }
 
 }
